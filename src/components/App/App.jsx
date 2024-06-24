@@ -7,8 +7,14 @@ import Options from "../Options/Options";
 import Notification from "../Notification/Notification";
 
 export default function App() {
+  const initialState = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
   const [feedback, setFeedback] = useState(() => {
-    const savedFeedback = window.localStorage.getItem("feedback");
+    const savedFeedback = localStorage.getItem("feedback");
     return savedFeedback ? JSON.parse(savedFeedback) : initialState;
   });
 
@@ -23,8 +29,8 @@ export default function App() {
     }));
   };
 
-  const initialState = () => {
-    setFeedback({ good: 0, neutral: 0, bad: 0 });
+  const resetFeedback = () => {
+    setFeedback(initialState);
   };
 
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
@@ -36,7 +42,7 @@ export default function App() {
       <Description />
       <Options
         updateFeedback={updateFeedback}
-        resetFeedback={initialState}
+        resetFeedback={resetFeedback}
         totalFeedback={totalFeedback}
       />
       {totalFeedback > 0 ? (
